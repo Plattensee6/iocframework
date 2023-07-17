@@ -7,11 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The PackageClassScanner is an implementation of the ClassLocator interface that scans a package and its sub-packages
+ * for classes annotated with the @Component annotation.
+ */
 public class PackageClassScanner implements ClassLocator {
     private static volatile PackageClassScanner instance = new PackageClassScanner();
+
     private PackageClassScanner() {
     }
 
+    /**
+     * Scans the specified package and its sub-packages for classes annotated with the @Component annotation.
+     *
+     * @param packageName the name of the package to scan
+     * @return a list of classes found in the package and its sub-packages
+     * @throws NullPointerException if the package name is null
+     */
     @Override
     public List<Class<?>> scan(String packageName) {
         List<Class<?>> classes = new ArrayList<>();
@@ -29,6 +41,13 @@ public class PackageClassScanner implements ClassLocator {
         return classes;
     }
 
+    /**
+     * Recursively scans a package and its sub-packages for classes annotated with @Component and adds them to the provided list.
+     *
+     * @param packageName    the name of the current package being scanned
+     * @param packageDirPath the absolute path of the current package directory
+     * @param classes        the list of classes to add the found classes to
+     */
     private void scanPackageRecursive(String packageName, String packageDirPath, List<Class<?>> classes) {
         File packageDir = new File(packageDirPath);
 
